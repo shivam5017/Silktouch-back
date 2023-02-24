@@ -17,7 +17,7 @@ userRouter.post("/register",async(req,res)=>{
     const {name,email,confirm_email,password,confirm_password,mobile}=req.body; 
     try {
         bcrypt.hash(password,5,async(err,secure_password)=>{
-            if(err) res.send({"msg":"User Already exists, Please Login"})
+            if(err) res.send(err.message)
            else{
             const user=new UserModel({name,email,confirm_email,password:secure_password,confirm_password,mobile});
             await user.save();
