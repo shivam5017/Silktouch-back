@@ -16,12 +16,16 @@ userRouter.get("/",async(req,res)=>{
 userRouter.post("/register",async(req,res)=>{
     const {name,email,confirm_email,password,confirm_password,mobile}=req.body; 
     try {
+        const user=await UserModel.find({email})
         bcrypt.hash(password,5,async(err,secure_password)=>{
-            if(err) res.send(err.message)
+            if(err) res.send({"msg":"Something went wrong","error":err.message})
+            else if(user.length!=0){
+                res.send({"msg":"User already registered"})
+            }
            else{
             const user=new UserModel({name,email,confirm_email,password:secure_password,confirm_password,mobile});
             await user.save();
-            res.send("New User Registered")
+            res.send({"msg":"New User has been registered"})
            }
         })
     } catch (error) {
@@ -50,11 +54,11 @@ userRouter.post("/login",async(req,res)=>{
                     const token=jwt.sign({userId:user[0]._id},process.env.key);
                     res.send({"msg":"Login Sucessfully!!","token":token})
                 }else{
-                    res.send("Wrong Credential")
+                    res.send({"msg":"Wrong Credentials"})
                 }
             });
         }else{
-            res.send("Wrong Credential")
+            res.send({"msg":"Wrong Credentials"})
         }
     } catch (error) {
         
