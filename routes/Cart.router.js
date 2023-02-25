@@ -37,6 +37,15 @@ cartRouter.get("/",async(req,res)=>{
     }
 })
 
+cartRouter.get("/allcartdata",async(req,res)=>{
+    try {
+        let user= await CartModel.find();
+         res.send(user)
+    } catch (error) {
+        console.log(error.message);
+    }
+})
+
 cartRouter.post("/addproduct",async(req,res)=>{
     const payload=req.body; 
     try {
