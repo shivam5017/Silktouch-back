@@ -3,6 +3,7 @@ const {UserModel}=require("../model/User.model");
 const userRouter =express.Router();
 const jwt=require("jsonwebtoken");
 const bcrypt=require("bcrypt");
+const { CartModel } = require("../model/Cart.model");
 
 userRouter.get("/",async(req,res)=>{
     try {
@@ -41,6 +42,16 @@ userRouter.post("/register",async(req,res)=>{
 //     "confirm_password":"abha",
 //     "mobile":7896543210
 //     }
+
+userRouter.get("/userid",async(req,res)=>{
+  
+     try {
+        const user = await UserModel.findById(CartModel.userId)
+        res.send(user.name)
+    } catch (error) {
+        console.log(error.message);
+    }
+})
 
 
 userRouter.post("/login",async(req,res)=>{
