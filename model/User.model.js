@@ -25,12 +25,6 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    refer_code:{
-        type: String,
-    },
-    loyalty:{
-        type: String,
-    },
     userId:{
          type:String
     },
